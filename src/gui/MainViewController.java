@@ -34,7 +34,7 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemDepartmentAction() {
-		System.out.println("onMenuItemDepartmentAction");
+		loadView("/gui/DepartmentList.fxml");
 	}
 
 	@FXML
@@ -46,9 +46,10 @@ public class MainViewController implements Initializable {
 	public void initialize(URL uri, ResourceBundle rb) {
 
 	}
- 
-	// Função para abrir uma outra tela e garante que o processamento não seja interrompido (synchronized)
-	private synchronized void  loadView(String absoluteName) {
+
+	// Função para abrir uma outra tela e garante que o processamento não seja
+	// interrompido (synchronized)
+	private synchronized void loadView(String absoluteName) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			VBox newVBox = loader.load();
@@ -62,7 +63,7 @@ public class MainViewController implements Initializable {
 			Node mainMenu = mainVBox.getChildren().get(0); // primeiro filho do VBox na janela principal = MainMenu
 			mainVBox.getChildren().clear(); // limpando todos os filhos do mainVBox
 
-			//Incluindo os filhos da janela que estiver abrindo
+			// Incluindo os filhos da janela que estiver abrindo
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(newVBox.getChildren());
 
@@ -70,5 +71,4 @@ public class MainViewController implements Initializable {
 			Alerts.showAlert("IO Exception", "Erro carregando página", e.getMessage(), AlertType.ERROR);
 		}
 	}
-
 }
