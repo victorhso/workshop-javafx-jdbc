@@ -15,6 +15,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import model.services.DepartmentService;
 
 public class MainViewController implements Initializable {
 
@@ -34,7 +35,7 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemDepartmentAction() {
-		loadView("/gui/DepartmentList.fxml");
+		loadView2("/gui/DepartmentList.fxml");
 	}
 
 	@FXML
@@ -66,6 +67,33 @@ public class MainViewController implements Initializable {
 			// Incluindo os filhos da janela que estiver abrindo
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(newVBox.getChildren());
+
+		} catch (IOException e) {
+			Alerts.showAlert("IO Exception", "Erro carregando página", e.getMessage(), AlertType.ERROR);
+		}
+	}
+	
+	private synchronized void loadView2(String absoluteName) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+			VBox newVBox = loader.load();
+
+			// Criando referência para a cena
+			Scene mainScene = Main.getMainScene();
+			// Pego uma referência para o VBOx que está na nossa janela principal
+			VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent(); // Vai pegar o primeiro elemento da
+																					// view.
+
+			Node mainMenu = mainVBox.getChildren().get(0); // primeiro filho do VBox na janela principal = MainMenu
+			mainVBox.getChildren().clear(); // limpando todos os filhos do mainVBox
+
+			// Incluindo os filhos da janela que estiver abrindo
+			mainVBox.getChildren().add(mainMenu);
+			mainVBox.getChildren().addAll(newVBox.getChildren());
+			
+			DepartmentListController controller = loader.getController(); //Acessando o controller
+			controller.setDepartmentService(new DepartmentService()); //injetando a dependencia
+			controller.updateTableView(); //processo manual de injetar a dependencia no controle e depois atualizando os dados
 
 		} catch (IOException e) {
 			Alerts.showAlert("IO Exception", "Erro carregando página", e.getMessage(), AlertType.ERROR);
