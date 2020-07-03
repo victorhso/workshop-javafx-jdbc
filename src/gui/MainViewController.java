@@ -68,11 +68,10 @@ public class MainViewController implements Initializable {
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(newVBox.getChildren());
 
-			//Vão executar a função passada como argumento
-			T controller = loader.getController(); //Retorna um departmentListController
+			// Vão executar a função passada como argumento
+			T controller = loader.getController(); // Retorna um departmentListController
 			initializingAction.accept(controller);
-		} 
-		catch (IOException e) {
+		} catch (IOException e) {
 			Alerts.showAlert("IO Exception", "Erro carregando página", e.getMessage(), AlertType.ERROR);
 		}
 	}
