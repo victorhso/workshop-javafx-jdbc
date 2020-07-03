@@ -1,18 +1,17 @@
 package model.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import model.dao.DaoFactory;
+import model.dao.DepartmentDAO;
 import model.entities.Department;
 
 public class DepartmentService {
 	
+	//Criando e injentando a dependencia
+	private DepartmentDAO dao = DaoFactory.createDepartmentDao(); 
+	
 	public List<Department> findAll(){
-		//Dados "mocados". MOCK = dados de mentira.
-		List<Department> list = new ArrayList<>();
-		list.add(new Department(1, "Livros"));
-		list.add(new Department(2, "Música"));
-		list.add(new Department(3, "Desenhos"));
-		return list;
+		return dao.findAll();
 	}
 }
