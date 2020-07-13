@@ -7,11 +7,19 @@ import model.dao.DepartmentDAO;
 import model.entities.Department;
 
 public class DepartmentService {
-	
-	//Criando e injentando a dependencia
-	private DepartmentDAO dao = DaoFactory.createDepartmentDao(); 
-	
-	public List<Department> findAll(){
+
+	// Criando e injentando a dependencia
+	private DepartmentDAO dao = DaoFactory.createDepartmentDao();
+
+	public List<Department> findAll() {
 		return dao.findAll();
+	}
+
+	public void saveOrUpdate(Department obj) {
+		if (obj.getId() == null) {
+			dao.insert(obj);
+		} else {
+			dao.update(obj);
+		}
 	}
 }
